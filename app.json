@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "create-expo-app",
-    "slug": "create-expo-app",
+    "name": "streetspot",
+    "slug": "streetspot",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
