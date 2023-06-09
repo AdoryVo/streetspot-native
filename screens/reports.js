@@ -1,10 +1,10 @@
 import { StatusBar } from 'expo-status-bar'
-import { Button, StyleSheet, Text, View } from 'react-native'
+import { Button, View } from 'react-native'
+import { components } from '../theme'
 
 export default function Reports({ navigation }) {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+    <View style={components.container}>
       <Button
         title="View Report Modal"
         onPress={() => navigation.navigate('View Report Modal')}
@@ -13,12 +13,3 @@ export default function Reports({ navigation }) {
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-})

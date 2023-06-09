@@ -1,5 +1,5 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { colors } from '../theme/colors'
+import { colors } from '../theme'
 import Home from './home'
 import Map from './map'
 import Reports from './reports'

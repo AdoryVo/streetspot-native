@@ -18,10 +18,7 @@ export default function Home({ navigation }) {
           source={require('../assets/adaptive-icon.png')}
         />
         <Text style={styles.title}>
-          <h1 style={{ margin: 0 }}>
-            {/* <FontAwesome name="binoculars" size={64} /> */}
-            STREETSPOT
-          </h1>
+          <h1 style={{ margin: 0 }}>STREETSPOT</h1>
         </Text>
 
         <Text>

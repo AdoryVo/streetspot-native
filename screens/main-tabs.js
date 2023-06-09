@@ -1,6 +1,6 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { colors } from '../theme/colors'
+import { colors } from '../theme'
 import Home from './home'
 import Map from './map'
 import Reports from './reports'

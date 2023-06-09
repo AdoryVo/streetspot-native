@@ -1,9 +1,10 @@
 import { StatusBar } from 'expo-status-bar'
 import { StyleSheet, Text, View } from 'react-native'
+import { components } from '../../theme'
 
 export default function ViewReportModal() {
   return (
-    <View style={styles.container}>
+    <View style={components.container}>
       <Text>Open up App.js to start working on your app!</Text>
       <StatusBar style="auto" />
     </View>

@@ -3,9 +3,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { useFonts } from 'expo-font'
 import * as SplashScreen from 'expo-splash-screen'
 
-import MainTabs from './screens/main-tabs'
-import ViewReportModal from './screens/modals/create-report-modal'
-import { colors } from './theme/colors'
+import { CreateReportModal, MainTabs, ViewReportModal } from './screens'
+import { colors } from './theme'
 
 SplashScreen.preventAutoHideAsync()
 
@@ -42,7 +41,7 @@ export default function App() {
         />
         <RootStack.Screen
           name="Create Report Modal"
-          component={ViewReportModal}
+          component={CreateReportModal}
           options={{ title: 'Create a Report' }}
         />
         <RootStack.Screen
