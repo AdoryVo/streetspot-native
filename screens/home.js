@@ -1,10 +1,23 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome'
+import * as Location from 'expo-location'
 import { StatusBar } from 'expo-status-bar'
+import { useState } from 'react'
 import { Image, StyleSheet, Text, TextInput, View } from 'react-native'
 import Balancer from 'react-wrap-balancer'
+
 import { colors, components } from '../theme'
 
 export default function Home({ navigation }) {
+  const [location, setLocation] = useState(null)
+
+  async function handleUseCurrentLocation() {
+    const location = await Location.getCurrentPositionAsync({})
+    navigation.navigate('Map', {
+      lat: location.coords.latitude,
+      lng: location.coords.longitude,
+    })
+  }
+
   return (
     <View style={components.container}>
       <View style={{ marginBottom: '1em', textAlign: 'center' }}>
@@ -53,7 +66,7 @@ export default function Home({ navigation }) {
           <FontAwesome.Button
             name="map-marker"
             backgroundColor={colors.palette.neutral400}
-            onPress={() => navigation.navigate('Map')}
+            onPress={handleUseCurrentLocation}
           >
             Use Current Location
           </FontAwesome.Button>

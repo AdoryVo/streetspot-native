@@ -2,10 +2,16 @@ import { StatusBar } from 'expo-status-bar'
 import { StyleSheet, Text, View } from 'react-native'
 import { components } from '../theme'
 
-export default function Map() {
+export default function Map({ route }) {
+  const { lat, lng } = route.params
+
   return (
     <View style={components.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+      <Text>
+        Latitude: {lat}
+        <br />
+        Longitude: {lng}
+      </Text>
       <StatusBar style="auto" />
     </View>
   )
