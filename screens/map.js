@@ -1,4 +1,3 @@
-import { StatusBar } from 'expo-status-bar'
 import { StyleSheet, Text, View } from 'react-native'
 import { components } from '../theme'
 
@@ -12,7 +11,6 @@ export default function Map({ route }) {
         <br />
         Longitude: {lng}
       </Text>
-      <StatusBar style="auto" />
     </View>
   )
 }
@@ -23,5 +21,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  map: {
+    width: '100%',
+    height: '100%',
   },
 })

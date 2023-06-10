@@ -1,14 +1,29 @@
+import { GOOGLE_MAPS_API_KEY } from '@env'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
+import { Loader } from '@googlemaps/js-api-loader'
 import * as Location from 'expo-location'
 import { StatusBar } from 'expo-status-bar'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Image, StyleSheet, Text, TextInput, View } from 'react-native'
 import Balancer from 'react-wrap-balancer'
 
 import { colors, components } from '../theme'
 
+const loader = new Loader({
+  apiKey: process.env.GOOGLE_MAPS_API_KEY || GOOGLE_MAPS_API_KEY,
+  version: 'weekly',
+  libraries: ['places'],
+})
+
 export default function Home({ navigation }) {
-  const [location, setLocation] = useState(null)
+  const [autocomplete, setAutocomplete] = useState(null)
+  const autocompleteRef = useRef(null)
+
+  function handleSearch() {
+    const place = autocomplete.getPlace()
+
+    navigation.navigate('Map', place.geometry.location.toJSON())
+  }
 
   async function handleUseCurrentLocation() {
     const location = await Location.getCurrentPositionAsync({})
@@ -17,6 +32,14 @@ export default function Home({ navigation }) {
       lng: location.coords.longitude,
     })
   }
+
+  useEffect(() => {
+    loader.importLibrary('places').then((Places) => {
+      const autocomplete = new Places.Autocomplete(autocompleteRef.current)
+      autocomplete.setFields(['geometry'])
+      setAutocomplete(autocomplete)
+    })
+  }, [])
 
   return (
     <View style={components.container}>
@@ -50,11 +73,12 @@ export default function Home({ navigation }) {
           placeholder="Search for a location"
           placeholderTextColor="gray"
           style={{ ...components.input, marginBottom: '0.5em', width: '100%' }}
+          ref={autocompleteRef}
         />
         <FontAwesome.Button
           name="search"
           backgroundColor={colors.background}
-          onPress={() => navigation.navigate('Map')}
+          onPress={handleSearch}
         >
           Search
         </FontAwesome.Button>
