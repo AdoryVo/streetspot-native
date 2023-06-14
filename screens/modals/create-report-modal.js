@@ -1,6 +1,8 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome'
+import { randomUUID } from 'expo-crypto'
 import * as ImagePicker from 'expo-image-picker'
 import { StatusBar } from 'expo-status-bar'
+import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
 import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { Image, StyleSheet, Text, TextInput, View } from 'react-native'
@@ -19,6 +21,13 @@ const RequiredText = () => (
     Please fill out this field.
   </Text>
 )
+
+import { ref as dbRef, getDatabase, set } from 'firebase/database'
+
+function addReport(data) {
+  const db = getDatabase()
+  set(dbRef(db, 'reports/' + randomUUID()), data)
+}
 
 export default function CreateReportModal({ route }) {
   const { lat, lng } = route.params
@@ -41,7 +50,7 @@ export default function CreateReportModal({ route }) {
     },
   })
 
-  const pickImage = async () => {
+  async function pickImage() {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -55,14 +64,41 @@ export default function CreateReportModal({ route }) {
     }
   }
 
-  function onSubmit(data) {
-    const parsedData = {
-      ...data,
-      category: data.category.value,
-      image,
-    }
+  async function uploadImage() {
+    const blob = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest()
+      xhr.onload = function () {
+        resolve(xhr.response)
+      }
+      xhr.onerror = function (e) {
+        console.log(e)
+        reject(new TypeError('Network request failed'))
+      }
+      xhr.responseType = 'blob'
+      xhr.open('GET', image, true)
+      xhr.send(null)
+    })
 
-    console.log(parsedData)
+    const fileRef = ref(getStorage(), randomUUID())
+    const result = await uploadBytes(fileRef, blob)
+
+    console.debug(result)
+
+    return await getDownloadURL(fileRef)
+  }
+
+  function onSubmit(data) {
+    uploadImage().then((uploadURL) => {
+      const parsedData = {
+        ...data,
+        category: data.category.value,
+        image: uploadURL,
+      }
+
+      console.debug(parsedData)
+
+      addReport(parsedData)
+    })
   }
 
   return (
@@ -76,7 +112,6 @@ export default function CreateReportModal({ route }) {
         style={{
           marginBottom: '0.5rem',
           textAlign: 'center',
-          color: colors.background,
         }}
       >
         <h2

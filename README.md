@@ -3,9 +3,16 @@
 2. [React Native for Web](https://docs.expo.dev/workflow/web/)
 
 # To-do
-1. Refactor database using React Native Firebase
-2. Think about report flow for mobile
-3. Later
+1. Add fixes
+  1. Fix autocomplete
+  2. Add loading to create report
+  3. Fix whitespace in image upload
+2. Read reports from database
+  1. Turn into markers
+  2. Make readable on the reports page
+3. Put firebase config into a .env
+4. Think about report flow for mobile
+5. Later
 	1. Refactoring streetspot-2021 to be streetspot-native
 
 # Completed

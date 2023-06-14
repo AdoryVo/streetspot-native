@@ -2,15 +2,30 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { useFonts } from 'expo-font'
 import * as SplashScreen from 'expo-splash-screen'
+import { getApps, initializeApp } from 'firebase/app'
 
 import { CreateReportModal, MainTabs, ViewReportModal } from './screens'
 import { colors } from './theme'
 
+const DEV_INITIAL_SCREEN = 'Main'
+const firebaseConfig = {
+  apiKey: 'AIzaSyDKONPXXmii6ukk84Uioc-B5h1dEzO39YM',
+  authDomain: 'streetspot-51164.firebaseapp.com',
+  databaseURL: 'https://streetspot-51164-default-rtdb.firebaseio.com/',
+  projectId: 'streetspot-51164',
+  storageBucket: 'streetspot-51164.appspot.com',
+  messagingSenderId: '728748622177',
+  appId: '1:728748622177:web:004b25e63a2febe5124520',
+  measurementId: 'G-C2M0SNTY49',
+}
+
 SplashScreen.preventAutoHideAsync()
 
-const RootStack = createNativeStackNavigator()
+if (!getApps().length) {
+  initializeApp(firebaseConfig)
+}
 
-const DEV_INITIAL_SCREEN = 'Main'
+const RootStack = createNativeStackNavigator()
 
 export default function App() {
   const [fontsLoaded] = useFonts({

@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
 import { createRoot } from 'react-dom/client'
+import { Balancer } from 'react-wrap-balancer'
 import { colors, components } from '../theme'
 
 const CREATE_MARKER_ID = 'createReport'
@@ -16,8 +17,6 @@ export default function Map({ navigation, route, isLoaded }) {
   })
   const [createMarker, setCreateMarker] = useState(null)
   const [activeMarker, setActiveMarker] = useState(CREATE_MARKER_ID)
-
-  console.log(JSON.stringify(coords))
 
   const LocationButtonDiv = () => (
     <View style={styles.locationButtonDiv}>
@@ -73,27 +72,39 @@ export default function Map({ navigation, route, isLoaded }) {
             onLoad={onLoadMarker}
           >
             {activeMarker === CREATE_MARKER_ID && (
-              <InfoWindow onCloseClick={() => setActiveMarker(null)}>
-                <div>
-                  <FontAwesome.Button
-                    name="binoculars"
-                    backgroundColor="white"
-                    color={colors.palette.neutral300}
-                    style={{
-                      borderColor: colors.palette.neutral300,
-                      borderWidth: '1px',
-                      margin: '0.25em',
-                    }}
-                    onPress={() =>
-                      navigation.navigate(
-                        'Create Report Modal',
-                        createMarker.getPosition().toJSON()
-                      )
-                    }
+              <InfoWindow
+                onCloseClick={() => setActiveMarker(null)}
+                visible={activeMarker === CREATE_MARKER_ID}
+              >
+                <View>
+                  <Text style={{ textAlign: 'center' }}>
+                    <Balancer>
+                      Drag the marker to report a specific location!
+                    </Balancer>
+                  </Text>
+                  <View
+                    style={{ width: 'fit-content', marginHorizontal: 'auto' }}
                   >
-                    Make a report
-                  </FontAwesome.Button>
-                </div>
+                    <FontAwesome.Button
+                      name="binoculars"
+                      backgroundColor="white"
+                      color={colors.palette.neutral300}
+                      style={{
+                        borderColor: colors.palette.neutral300,
+                        borderWidth: '1px',
+                        margin: '0.25em',
+                      }}
+                      onPress={() =>
+                        navigation.navigate(
+                          'Create Report Modal',
+                          createMarker.getPosition().toJSON()
+                        )
+                      }
+                    >
+                      Make a report
+                    </FontAwesome.Button>
+                  </View>
+                </View>
               </InfoWindow>
             )}
           </Marker>
@@ -119,6 +130,6 @@ const styles = StyleSheet.create({
   locationButtonDiv: {
     width: 'fit-content',
     marginHorizontal: 'auto',
-    marginBottom: '1em',
+    marginBottom: '1.5em',
   },
 })
