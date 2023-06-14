@@ -1,21 +1,14 @@
-import { GOOGLE_MAPS_API_KEY } from '@env'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
-import { Loader } from '@googlemaps/js-api-loader'
 import * as Location from 'expo-location'
 import { StatusBar } from 'expo-status-bar'
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { Image, StyleSheet, Text, TextInput, View } from 'react-native'
 import Balancer from 'react-wrap-balancer'
 
+import { Autocomplete } from '@react-google-maps/api'
 import { colors, components } from '../theme'
 
-const loader = new Loader({
-  apiKey: process.env.GOOGLE_MAPS_API_KEY || GOOGLE_MAPS_API_KEY,
-  version: 'weekly',
-  libraries: ['places'],
-})
-
-export default function Home({ navigation }) {
+export default function Home({ navigation, isLoaded }) {
   const [autocomplete, setAutocomplete] = useState(null)
   const autocompleteRef = useRef(null)
 
@@ -33,13 +26,10 @@ export default function Home({ navigation }) {
     })
   }
 
-  useEffect(() => {
-    loader.importLibrary('places').then((Places) => {
-      const autocomplete = new Places.Autocomplete(autocompleteRef.current)
-      autocomplete.setFields(['geometry'])
-      setAutocomplete(autocomplete)
-    })
-  }, [])
+  function onAutocompleteLoad(autocomplete) {
+    autocomplete.setFields(['geometry'])
+    setAutocomplete(autocomplete)
+  }
 
   return (
     <View style={components.container}>
@@ -69,12 +59,20 @@ export default function Home({ navigation }) {
 
       <View style={{ marginTop: '1em', width: '75%', maxWidth: '300px' }}>
         {/* Search input */}
-        <TextInput
-          placeholder="Search for a location"
-          placeholderTextColor="gray"
-          style={{ ...components.input, marginBottom: '0.5em', width: '100%' }}
-          ref={autocompleteRef}
-        />
+        {isLoaded && (
+          <Autocomplete onLoad={onAutocompleteLoad}>
+            <TextInput
+              placeholder="Search for a location"
+              placeholderTextColor="gray"
+              style={{
+                ...components.input,
+                marginBottom: '0.5em',
+                width: '100%',
+              }}
+              ref={autocompleteRef}
+            />
+          </Autocomplete>
+        )}
         <FontAwesome.Button
           name="search"
           backgroundColor={colors.background}
@@ -134,6 +132,7 @@ export default function Home({ navigation }) {
 const styles = StyleSheet.create({
   title: {
     color: colors.background,
+    textFillColor: 'transparent',
     fontFamily: 'Inter-Black',
     fontSize: '1.5em',
   },
