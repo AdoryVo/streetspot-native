@@ -15,9 +15,11 @@ export const components = StyleSheet.create({
     fontSize: '1em',
   },
   input: {
-    padding: '0.75em',
-    border: '1px solid black',
+    fontFamily: 'SF Pro',
+    fontSize: '16px',
+    border: '1px solid #cccccc',
     borderRadius: '5px',
-    backgroundColor: colors.palette.neutral100,
+    backgroundColor: 'white',
+    padding: '0.75em',
   },
 })

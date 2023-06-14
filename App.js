@@ -10,6 +10,8 @@ SplashScreen.preventAutoHideAsync()
 
 const RootStack = createNativeStackNavigator()
 
+const DEV_INITIAL_SCREEN = 'Main'
+
 export default function App() {
   const [fontsLoaded] = useFonts({
     'Inter-Black': require('./assets/fonts/Inter-Black.otf'),
@@ -28,6 +30,9 @@ export default function App() {
       }}
     >
       <RootStack.Navigator
+        initialRouteName={
+          process.env.NODE_ENV === 'development' ? DEV_INITIAL_SCREEN : 'Main'
+        }
         screenOptions={{
           headerStyle: { backgroundColor: colors.background },
           headerTintColor: colors.text,
@@ -43,6 +48,7 @@ export default function App() {
           name="Create Report Modal"
           component={CreateReportModal}
           options={{ title: 'Create a Report' }}
+          initialParams={{ lat: 32.8801, lng: -117.234 }}
         />
         <RootStack.Screen
           name="View Report Modal"
