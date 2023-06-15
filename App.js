@@ -5,7 +5,7 @@ import { useFonts } from 'expo-font'
 import * as SplashScreen from 'expo-splash-screen'
 import { getApps, initializeApp } from 'firebase/app'
 
-import { CreateReportModal, MainTabs, ViewReportModal } from './screens'
+import { CreateReportModal, MainTabs } from './screens'
 import { colors } from './theme'
 
 const DEV_INITIAL_SCREEN = 'Main'
@@ -71,11 +71,6 @@ export default function App() {
             component={CreateReportModal}
             options={{ title: 'Create a Report' }}
             initialParams={{ lat: 32.8801, lng: -117.234 }}
-          />
-          <RootStack.Screen
-            name="View Report Modal"
-            component={ViewReportModal}
-            options={{ title: 'Report Details' }}
           />
         </RootStack.Group>
       </RootStack.Navigator>

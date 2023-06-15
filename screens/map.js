@@ -221,12 +221,6 @@ export default function Map({ navigation, route, isLoaded }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   text: {
     fontFamily: 'SF Pro',
     fontSize: '12px',

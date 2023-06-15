@@ -114,7 +114,7 @@ export default function CreateReportModal({ navigation, route }) {
   }
 
   return (
-    <View style={components.container}>
+    <View style={{ ...styles.container, ...components.container }}>
       {/* Header */}
       <FontAwesome name="pencil-square" size={48} color={colors.background} />
       <Text style={components.title}>
@@ -283,10 +283,8 @@ export default function CreateReportModal({ navigation, route }) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    overflow: 'auto',
+    paddingVertical: '2em',
   },
   input: {
     marginTop: '0.5em',

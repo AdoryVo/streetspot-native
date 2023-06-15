@@ -116,7 +116,7 @@ export default function Home({ navigation, isLoaded }) {
             Made with 💖 from San Diego
             <br />
             <a
-              href="https://github.com/AdoryVo/streetspot-2021"
+              href="https://github.com/AdoryVo/streetspot-native"
               target="_blank"
             >
               Source Code

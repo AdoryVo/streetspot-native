@@ -7,7 +7,8 @@ import {
   ref,
 } from 'firebase/database'
 import { useEffect, useState } from 'react'
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { Image, Modal, Pressable, StyleSheet, Text, View } from 'react-native'
+import { useMediaQuery } from 'react-responsive'
 import { Balancer } from 'react-wrap-balancer'
 
 import { DATABASE_PATH } from '../constants'
@@ -15,6 +16,10 @@ import { colors, components } from '../theme'
 
 export default function Reports({ navigation }) {
   const [reports, setReports] = useState({})
+  const [modalImage, setModalImage] = useState('')
+  const isMobile = useMediaQuery({
+    query: '(max-width: 767px)',
+  })
 
   useEffect(() => {
     const db = getDatabase()
@@ -62,39 +67,50 @@ export default function Reports({ navigation }) {
         </Text>
       )}
       {Object.entries(reports).map(([id, report]) => (
-        <View key={id} style={styles.reportCard}>
-          <View style={{ flex: 1 }}>
-            <Image
-              source={{ uri: report.image }}
-              style={{
-                height: '100%',
-                resizeMode: 'contain',
-                border: '2px solid #cccccc',
-                backgroundColor: '#eeeeee',
-                borderRadius: '5px',
-              }}
-            />
-          </View>
-          <View style={{ flex: 2 }}>
-            <Text style={styles.text}>
-              <h3 style={{ margin: 0, textTransform: 'capitalize' }}>
-                {report.title}
-              </h3>
-            </Text>
-            <Text style={{ ...styles.text, ...styles.category }}>
-              {report.category}
-            </Text>
-            <Text
-              style={{
-                ...styles.text,
-                marginVertical: '0.75em',
-              }}
+        <View
+          key={id}
+          style={isMobile ? styles.reportCardMobile : styles.reportCard}
+        >
+          <View style={{ flex: '1 1 auto' }}>
+            <Pressable
+              onPress={() => setModalImage(report.image)}
+              style={{ cursor: 'zoom-in', height: '100%' }}
             >
-              {report.description}
-            </Text>
-            <Text style={styles.text}>
-              Reported at {new Date(report.createdAt).toLocaleString()}
-            </Text>
+              <Image
+                source={{ uri: report.image }}
+                style={{
+                  height: '100%',
+                  minHeight: isMobile ? '25vh' : '0',
+                  resizeMode: 'cover',
+                  border: '2px solid #cccccc',
+                  backgroundColor: '#eeeeee',
+                  borderRadius: '5px',
+                }}
+              />
+            </Pressable>
+          </View>
+          <View style={{ flex: '2 1 auto' }}>
+            <View>
+              <Text style={styles.text}>
+                <h3 style={{ margin: 0, textTransform: 'capitalize' }}>
+                  {report.title}
+                </h3>
+              </Text>
+              <Text style={{ ...styles.text, ...styles.category }}>
+                {report.category}
+              </Text>
+              <Text
+                style={{
+                  ...styles.text,
+                  marginVertical: '0.75em',
+                }}
+              >
+                {report.description}
+              </Text>
+              <Text style={styles.text}>
+                Reported at {new Date(report.createdAt).toLocaleString()}
+              </Text>
+            </View>
 
             <View style={styles.actionBar}>
               <View style={{ flexDirection: 'row', gap: '0.5em' }}>
@@ -132,7 +148,7 @@ export default function Reports({ navigation }) {
                   onPress={() =>
                     navigation.navigate('Map', {
                       id,
-                      lat: report.lat,
+                      lat: report.lat - 0.0003,
                       lng: report.lng,
                     })
                   }
@@ -144,6 +160,30 @@ export default function Reports({ navigation }) {
           </View>
         </View>
       ))}
+
+      {/* Image modal */}
+      <Modal
+        animationType="fade"
+        visible={modalImage !== ''}
+        transparent={true}
+      >
+        <Pressable
+          style={styles.centeredView}
+          onPress={() => setModalImage('')}
+        >
+          <View style={isMobile ? styles.modalViewMobile : styles.modalView}>
+            <Image
+              source={{ uri: modalImage }}
+              style={{
+                width: '100%',
+                height: 'inherit',
+                resizeMode: 'contain',
+                borderRadius: '5px',
+              }}
+            />
+          </View>
+        </Pressable>
+      </Modal>
     </View>
   )
 }
@@ -151,6 +191,8 @@ export default function Reports({ navigation }) {
 const styles = StyleSheet.create({
   actionBar: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: '1em',
     justifyContent: 'space-between',
     marginTop: '0.5em',
   },
@@ -164,13 +206,23 @@ const styles = StyleSheet.create({
     fontSize: '16px',
   },
   reportCard: {
-    flew: 1,
     flexDirection: 'row',
     gap: '1em',
     backgroundColor: 'white',
     border: '1px solid #cccccc',
     borderRadius: '5px',
     width: '75%',
+    padding: '1em',
+    marginBottom: '1em',
+  },
+  reportCardMobile: {
+    flex: 'grow',
+    flexDirection: 'column',
+    gap: '1em',
+    backgroundColor: 'white',
+    border: '1px solid #cccccc',
+    borderRadius: '5px',
+    width: '85%',
     padding: '1em',
     marginBottom: '1em',
   },
@@ -184,5 +236,21 @@ const styles = StyleSheet.create({
     width: 'fit-content',
     padding: '0.25em',
     marginVertical: '0.25em',
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: 'auto',
+    width: '100%',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalView: {
+    width: '66vw',
+    height: '75vh',
+  },
+  modalViewMobile: {
+    width: '80vw',
+    height: '75vh',
   },
 })
