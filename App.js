@@ -1,3 +1,4 @@
+import { GOOGLE_API_KEY } from '@env'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { useFonts } from 'expo-font'
@@ -9,7 +10,7 @@ import { colors } from './theme'
 
 const DEV_INITIAL_SCREEN = 'Main'
 const firebaseConfig = {
-  apiKey: 'AIzaSyDKONPXXmii6ukk84Uioc-B5h1dEzO39YM',
+  apiKey: GOOGLE_API_KEY || 'AIzaSyDKONPXXmii6ukk84Uioc-B5h1dEzO39YM',
   authDomain: 'streetspot-51164.firebaseapp.com',
   databaseURL: 'https://streetspot-51164-default-rtdb.firebaseio.com/',
   projectId: 'streetspot-51164',

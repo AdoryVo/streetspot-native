@@ -6,7 +6,14 @@ import { ref as dbRef, getDatabase, set } from 'firebase/database'
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
 import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import { Image, StyleSheet, Text, TextInput, View } from 'react-native'
+import {
+  ActivityIndicator,
+  Image,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native'
 import Select from 'react-select'
 import { Balancer } from 'react-wrap-balancer'
 
@@ -34,7 +41,7 @@ export default function CreateReportModal({ navigation, route }) {
   const { lat, lng } = route.params
 
   const [image, setImage] = useState(null)
-  const [uploading, setUploading] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
   const {
     control,
     handleSubmit,
@@ -90,7 +97,7 @@ export default function CreateReportModal({ navigation, route }) {
   }
 
   function onSubmit(data) {
-    setUploading(true)
+    setSubmitting(true)
     uploadImage().then((uploadURL) => {
       const parsedData = {
         ...data,
@@ -101,8 +108,8 @@ export default function CreateReportModal({ navigation, route }) {
       console.debug(parsedData)
 
       addReport(parsedData)
-      setUploading(false)
-      navigation.navigate('Reports')
+      setSubmitting(false)
+      navigation.navigate('Main', { screen: 'Reports' })
     })
   }
 
@@ -244,6 +251,29 @@ export default function CreateReportModal({ navigation, route }) {
             Submit
           </FontAwesome.Button>
         </View>
+
+        {submitting && (
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              aliignItems: 'center',
+              marginTop: '1em',
+              gap: '0.5em',
+            }}
+          >
+            <ActivityIndicator />
+            <Text
+              style={{
+                fontFamily: 'SF Pro',
+                fontSize: '16px',
+                display: 'flex',
+              }}
+            >
+              Submitting...
+            </Text>
+          </View>
+        )}
       </View>
 
       <StatusBar style="auto" />

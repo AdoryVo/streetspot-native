@@ -1,4 +1,4 @@
-import { GOOGLE_MAPS_API_KEY } from '@env'
+import { GOOGLE_API_KEY } from '@env'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { useJsApiLoader } from '@react-google-maps/api'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
@@ -19,7 +19,8 @@ const DEV_INITIAL_SCREEN = 'Home'
 
 export default function MainTabs() {
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY || GOOGLE_MAPS_API_KEY,
+    googleMapsApiKey:
+      GOOGLE_API_KEY ?? 'AIzaSyDKONPXXmii6ukk84Uioc-B5h1dEzO39YM',
     libraries,
   })
 
@@ -53,7 +54,7 @@ export default function MainTabs() {
         initialParams={{ lat: 32.8801, lng: -117.234 }}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <FontAwesome name="map-marker" color={color} size={size} />
+            <FontAwesome name="map" color={color} size={18} />
           ),
         }}
       >

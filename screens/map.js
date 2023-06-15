@@ -18,7 +18,9 @@ export default function Map({ navigation, route, isLoaded }) {
     lng: route.params.lng,
   })
   const [createMarker, setCreateMarker] = useState(null)
-  const [activeMarker, setActiveMarker] = useState(CREATE_MARKER_ID)
+  const [activeMarker, setActiveMarker] = useState(
+    route.params.id ?? CREATE_MARKER_ID
+  )
   const [reports, setReports] = useState({})
 
   const LocationButtonDiv = () => (
@@ -178,14 +180,6 @@ export default function Map({ navigation, route, isLoaded }) {
                       </Text>
                       <Text style={{ ...styles.text, ...styles.badge }}>
                         <FontAwesome name="thumbs-down" /> {report.dislikes}
-                      </Text>
-                      <Text style={{ color: 'gray', fontFamily: 'SF Pro' }}>
-                        | <FontAwesome name="thumbs-up" /> {report.likes}
-                        <FontAwesome
-                          name="thumbs-down"
-                          style={{ marginStart: '1em' }}
-                        />{' '}
-                        {report.dislikes}
                       </Text>
                     </View>
 

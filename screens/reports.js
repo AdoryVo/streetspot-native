@@ -84,7 +84,12 @@ export default function Reports({ navigation }) {
             <Text style={{ ...styles.text, ...styles.category }}>
               {report.category}
             </Text>
-            <Text style={{ ...styles.text, marginVertical: '0.75em' }}>
+            <Text
+              style={{
+                ...styles.text,
+                marginVertical: '0.75em',
+              }}
+            >
               {report.description}
             </Text>
             <Text style={styles.text}>
@@ -126,6 +131,7 @@ export default function Reports({ navigation }) {
                   size={16}
                   onPress={() =>
                     navigation.navigate('Map', {
+                      id,
                       lat: report.lat,
                       lng: report.lng,
                     })
