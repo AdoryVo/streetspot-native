@@ -1,7 +1,6 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { Autocomplete } from '@react-google-maps/api'
 import * as Location from 'expo-location'
-import { StatusBar } from 'expo-status-bar'
 import { useRef, useState } from 'react'
 import { Image, StyleSheet, Text, TextInput, View } from 'react-native'
 import Balancer from 'react-wrap-balancer'
@@ -124,7 +123,6 @@ export default function Home({ navigation, isLoaded }) {
           </Text>
         </View>
       </View>
-      <StatusBar style="auto" />
     </View>
   )
 }

@@ -1,7 +1,6 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { randomUUID } from 'expo-crypto'
 import * as ImagePicker from 'expo-image-picker'
-import { StatusBar } from 'expo-status-bar'
 import { ref as dbRef, getDatabase, set } from 'firebase/database'
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
 import { useState } from 'react'
@@ -275,8 +274,6 @@ export default function CreateReportModal({ navigation, route }) {
           </View>
         )}
       </View>
-
-      <StatusBar style="auto" />
     </View>
   )
 }
