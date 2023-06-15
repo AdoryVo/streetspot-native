@@ -2,12 +2,15 @@ import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { randomUUID } from 'expo-crypto'
 import * as ImagePicker from 'expo-image-picker'
 import { StatusBar } from 'expo-status-bar'
+import { ref as dbRef, getDatabase, set } from 'firebase/database'
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
 import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { Image, StyleSheet, Text, TextInput, View } from 'react-native'
 import Select from 'react-select'
 import { Balancer } from 'react-wrap-balancer'
+
+import { DATABASE_PATH } from '../../constants'
 import { colors, components } from '../../theme'
 
 const CATEGORY_OPTIONS = [
@@ -22,17 +25,16 @@ const RequiredText = () => (
   </Text>
 )
 
-import { ref as dbRef, getDatabase, set } from 'firebase/database'
-
 function addReport(data) {
   const db = getDatabase()
-  set(dbRef(db, 'reports/' + randomUUID()), data)
+  set(dbRef(db, `${DATABASE_PATH}/` + randomUUID()), data)
 }
 
-export default function CreateReportModal({ route }) {
+export default function CreateReportModal({ navigation, route }) {
   const { lat, lng } = route.params
 
   const [image, setImage] = useState(null)
+  const [uploading, setUploading] = useState(false)
   const {
     control,
     handleSubmit,
@@ -88,6 +90,7 @@ export default function CreateReportModal({ route }) {
   }
 
   function onSubmit(data) {
+    setUploading(true)
     uploadImage().then((uploadURL) => {
       const parsedData = {
         ...data,
@@ -98,6 +101,8 @@ export default function CreateReportModal({ route }) {
       console.debug(parsedData)
 
       addReport(parsedData)
+      setUploading(false)
+      navigation.navigate('Reports')
     })
   }
 
@@ -106,7 +111,9 @@ export default function CreateReportModal({ route }) {
       {/* Header */}
       <FontAwesome name="pencil-square" size={48} color={colors.background} />
       <Text style={components.title}>
-        <h1 style={{ margin: '0.25em' }}>Create a Report</h1>
+        <h1 style={{ margin: '0.25em', textTransform: 'uppercase' }}>
+          Create a Report
+        </h1>
       </Text>
       <Text
         style={{
@@ -191,6 +198,9 @@ export default function CreateReportModal({ route }) {
                 height: 300,
                 marginTop: '0.5em',
                 resizeMode: 'contain',
+                border: '2px solid #cccccc',
+                backgroundColor: '#eeeeee',
+                borderRadius: '5px',
               }}
             />
           )}

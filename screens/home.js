@@ -1,11 +1,11 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome'
+import { Autocomplete } from '@react-google-maps/api'
 import * as Location from 'expo-location'
 import { StatusBar } from 'expo-status-bar'
 import { useRef, useState } from 'react'
 import { Image, StyleSheet, Text, TextInput, View } from 'react-native'
 import Balancer from 'react-wrap-balancer'
 
-import { Autocomplete } from '@react-google-maps/api'
 import { colors, components } from '../theme'
 
 export default function Home({ navigation, isLoaded }) {
@@ -44,13 +44,13 @@ export default function Home({ navigation, isLoaded }) {
           source={require('../assets/adaptive-icon.png')}
         />
         <Text style={styles.title}>
-          <h1 style={{ margin: 0 }}>STREETSPOT</h1>
+          <h1 style={{ margin: 0, textTransform: 'uppercase' }}>Streetspot</h1>
         </Text>
 
         <Text>
           <h2 style={{ fontFamily: 'SF Pro', fontWeight: 'normal', margin: 0 }}>
             <Balancer>
-              Spot and report local infrastructure issues in your area to
+              Report local infrastructure issues you spot in your area to
               improve your city!
             </Balancer>
           </h2>

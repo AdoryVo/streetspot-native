@@ -4,9 +4,8 @@
 
 # To-do
 1. Add fixes
-  1. Fix autocomplete
-  2. Add loading to create report
-  3. Fix whitespace in image upload
+  1. Add loading to create report
+  2. Fix whitespace in image upload
 2. Read reports from database
   1. Turn into markers
   2. Make readable on the reports page

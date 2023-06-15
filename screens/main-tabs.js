@@ -3,6 +3,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { useJsApiLoader } from '@react-google-maps/api'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { memo } from 'react'
+
 import { colors } from '../theme'
 import Home from './home'
 import Map from './map'

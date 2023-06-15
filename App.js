@@ -49,27 +49,34 @@ export default function App() {
           process.env.NODE_ENV === 'development' ? DEV_INITIAL_SCREEN : 'Main'
         }
         screenOptions={{
+          contentStyle: {
+            overflow: 'hidden',
+          },
           headerStyle: { backgroundColor: colors.background },
           headerTintColor: colors.text,
           headerTitleStyle: { color: colors.text, fontFamily: 'SF Pro' },
         }}
       >
-        <RootStack.Screen
-          name="Main"
-          component={MainTabs}
-          options={{ headerShown: false }}
-        />
-        <RootStack.Screen
-          name="Create Report Modal"
-          component={CreateReportModal}
-          options={{ title: 'Create a Report' }}
-          initialParams={{ lat: 32.8801, lng: -117.234 }}
-        />
-        <RootStack.Screen
-          name="View Report Modal"
-          component={ViewReportModal}
-          options={{ title: 'Report Details' }}
-        />
+        <RootStack.Group>
+          <RootStack.Screen
+            name="Main"
+            component={MainTabs}
+            options={{ headerShown: false }}
+          />
+        </RootStack.Group>
+        <RootStack.Group screenOptions={{ presentation: 'modal' }}>
+          <RootStack.Screen
+            name="Create Report Modal"
+            component={CreateReportModal}
+            options={{ title: 'Create a Report' }}
+            initialParams={{ lat: 32.8801, lng: -117.234 }}
+          />
+          <RootStack.Screen
+            name="View Report Modal"
+            component={ViewReportModal}
+            options={{ title: 'Report Details' }}
+          />
+        </RootStack.Group>
       </RootStack.Navigator>
     </NavigationContainer>
   )

@@ -1,11 +1,13 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome'
-import { GoogleMap, InfoWindow, Marker } from '@react-google-maps/api'
+import { GoogleMap, InfoWindowF, MarkerF } from '@react-google-maps/api'
 import * as Location from 'expo-location'
-import { useState } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-
+import { getDatabase, onValue, ref } from 'firebase/database'
+import { useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
+import { Image, StyleSheet, Text, View } from 'react-native'
 import { Balancer } from 'react-wrap-balancer'
+
+import { DATABASE_PATH } from '../constants'
 import { colors, components } from '../theme'
 
 const CREATE_MARKER_ID = 'createReport'
@@ -17,6 +19,7 @@ export default function Map({ navigation, route, isLoaded }) {
   })
   const [createMarker, setCreateMarker] = useState(null)
   const [activeMarker, setActiveMarker] = useState(CREATE_MARKER_ID)
+  const [reports, setReports] = useState({})
 
   const LocationButtonDiv = () => (
     <View style={styles.locationButtonDiv}>
@@ -36,6 +39,7 @@ export default function Map({ navigation, route, isLoaded }) {
       lat: location.coords.latitude,
       lng: location.coords.longitude,
     })
+    setActiveMarker(CREATE_MARKER_ID)
   }
 
   function onLoadMap(map) {
@@ -51,6 +55,22 @@ export default function Map({ navigation, route, isLoaded }) {
     setCreateMarker(marker)
   }
 
+  useEffect(() => {
+    setCoords({
+      lat: route.params.lat,
+      lng: route.params.lng,
+    })
+  }, [route])
+
+  useEffect(() => {
+    const db = getDatabase()
+    const reportsRef = ref(db, DATABASE_PATH)
+    onValue(reportsRef, (snapshot) => {
+      const data = snapshot.val()
+      setReports(data)
+    })
+  }, [])
+
   return (
     <View style={components.container}>
       {isLoaded ? (
@@ -61,7 +81,7 @@ export default function Map({ navigation, route, isLoaded }) {
           mapContainerStyle={styles.map}
         >
           {/* Create Report Marker */}
-          <Marker
+          <MarkerF
             draggable={true}
             position={coords}
             label={{
@@ -70,9 +90,11 @@ export default function Map({ navigation, route, isLoaded }) {
             }}
             onClick={() => setActiveMarker(CREATE_MARKER_ID)}
             onLoad={onLoadMarker}
+            zIndex={100}
           >
             {activeMarker === CREATE_MARKER_ID && (
-              <InfoWindow
+              <InfoWindowF
+                position={coords}
                 onCloseClick={() => setActiveMarker(null)}
                 visible={activeMarker === CREATE_MARKER_ID}
               >
@@ -105,9 +127,97 @@ export default function Map({ navigation, route, isLoaded }) {
                     </FontAwesome.Button>
                   </View>
                 </View>
-              </InfoWindow>
+              </InfoWindowF>
             )}
-          </Marker>
+          </MarkerF>
+
+          {Object.entries(reports).map(([id, report]) => (
+            <MarkerF
+              key={id}
+              position={{
+                lat: report.lat,
+                lng: report.lng,
+              }}
+              onClick={() => setActiveMarker(id)}
+            >
+              {activeMarker === id && (
+                <InfoWindowF
+                  position={{
+                    lat: report.lat,
+                    lng: report.lng,
+                  }}
+                  onCloseClick={() => setActiveMarker(null)}
+                  visible={activeMarker === id}
+                >
+                  <View style={{ marginTop: '0.5em' }}>
+                    <Image
+                      source={{ uri: report.image }}
+                      style={{
+                        width: '100%',
+                        height: '300px',
+                        resizeMode: 'contain',
+                        border: '2px solid #cccccc',
+                        backgroundColor: '#eeeeee',
+                        borderRadius: '5px',
+                        marginBottom: '0.5em',
+                      }}
+                    />
+
+                    <Text style={styles.text}>
+                      <h3 style={{ margin: 0, textTransform: 'capitalize' }}>
+                        {report.title}
+                      </h3>
+                    </Text>
+
+                    <View style={{ flex: 1, flexDirection: 'row' }}>
+                      <Text style={{ ...styles.text, ...styles.badge }}>
+                        {report.category}
+                      </Text>
+                      <Text style={{ ...styles.text, ...styles.badge }}>
+                        <FontAwesome name="thumbs-up" /> {report.likes}
+                      </Text>
+                      <Text style={{ ...styles.text, ...styles.badge }}>
+                        <FontAwesome name="thumbs-down" /> {report.dislikes}
+                      </Text>
+                      <Text style={{ color: 'gray', fontFamily: 'SF Pro' }}>
+                        | <FontAwesome name="thumbs-up" /> {report.likes}
+                        <FontAwesome
+                          name="thumbs-down"
+                          style={{ marginStart: '1em' }}
+                        />{' '}
+                        {report.dislikes}
+                      </Text>
+                    </View>
+
+                    <Text style={{ ...styles.text, marginVertical: '0.75em' }}>
+                      {report.description}
+                    </Text>
+
+                    <Text style={styles.text}>
+                      Reported at {new Date(report.createdAt).toLocaleString()}
+                    </Text>
+
+                    <View
+                      style={{
+                        width: 'fit-content',
+                        marginHorizontal: 'auto',
+                        marginTop: '0.5em',
+                      }}
+                    >
+                      <FontAwesome.Button
+                        name="map-pin"
+                        backgroundColor={colors.palette.neutral300}
+                        color="white"
+                        onPress={() => navigation.navigate('Reports')}
+                      >
+                        View on reports page
+                      </FontAwesome.Button>
+                    </View>
+                  </View>
+                </InfoWindowF>
+              )}
+            </MarkerF>
+          ))}
         </GoogleMap>
       ) : (
         <Text>Loading...</Text>
@@ -123,6 +233,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  text: {
+    fontFamily: 'SF Pro',
+    fontSize: '12px',
+  },
   map: {
     width: '100%',
     height: '100%',
@@ -131,5 +245,15 @@ const styles = StyleSheet.create({
     width: 'fit-content',
     marginHorizontal: 'auto',
     marginBottom: '1.5em',
+  },
+  badge: {
+    textTransform: 'capitalize',
+    backgroundColor: '#cccccc',
+    color: 'black',
+    borderRadius: '4px',
+    display: 'inline',
+    width: 'fit-content',
+    padding: '0.25em',
+    marginEnd: '0.5em',
   },
 })
