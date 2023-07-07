@@ -1,27 +1,36 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { Autocomplete } from '@react-google-maps/api'
 import * as Location from 'expo-location'
+import { router } from 'expo-router'
 import { useRef, useState } from 'react'
 import { Image, StyleSheet, Text, TextInput, View } from 'react-native'
 import Balancer from 'react-wrap-balancer'
 
-import { colors, components } from '../theme'
+import { useMaps } from '../../components/maps-context'
+import { colors, components } from '../../theme'
 
-export default function Home({ navigation, isLoaded }) {
+export default function HomeScreen() {
   const [autocomplete, setAutocomplete] = useState(null)
   const autocompleteRef = useRef(null)
+  const { isLoaded } = useMaps()
 
   function handleSearch() {
     const place = autocomplete.getPlace()
 
-    navigation.navigate('Map', place.geometry.location.toJSON())
+    router.replace({
+      pathname: 'map',
+      params: place.geometry.location.toJSON(),
+    })
   }
 
   async function handleUseCurrentLocation() {
     const location = await Location.getCurrentPositionAsync({})
-    navigation.navigate('Map', {
-      lat: location.coords.latitude,
-      lng: location.coords.longitude,
+    router.replace({
+      pathname: 'map',
+      params: {
+        lat: location.coords.latitude,
+        lng: location.coords.longitude,
+      },
     })
   }
 
@@ -40,7 +49,7 @@ export default function Home({ navigation, isLoaded }) {
             marginHorizontal: 'auto',
             marginBottom: '0.5em',
           }}
-          source={require('../assets/adaptive-icon.png')}
+          source={require('../../assets/adaptive-icon.png')}
         />
         <Text style={{ ...styles.title, textAlign: 'center' }}>
           <h1 style={{ margin: 0, textTransform: 'uppercase' }}>Streetspot</h1>
@@ -106,7 +115,7 @@ export default function Home({ navigation, isLoaded }) {
           <FontAwesome.Button
             name="list"
             backgroundColor={colors.background}
-            onPress={() => navigation.navigate('Reports')}
+            onPress={() => router.replace('reports')}
           >
             List of Local Reports
           </FontAwesome.Button>

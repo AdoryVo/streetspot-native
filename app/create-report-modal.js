@@ -1,6 +1,7 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { randomUUID } from 'expo-crypto'
 import * as ImagePicker from 'expo-image-picker'
+import { router, useLocalSearchParams } from 'expo-router'
 import { ref as dbRef, getDatabase, set } from 'firebase/database'
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
 import { useState } from 'react'
@@ -16,8 +17,8 @@ import {
 import Select from 'react-select'
 import Balancer from 'react-wrap-balancer'
 
-import { DATABASE_PATH } from '../../constants'
-import { colors, components } from '../../theme'
+import { DATABASE_PATH } from '../constants'
+import { colors, components } from '../theme'
 
 const CATEGORY_OPTIONS = [
   { value: 'road', label: 'Road' },
@@ -36,8 +37,8 @@ function addReport(data) {
   set(dbRef(db, `${DATABASE_PATH}/` + randomUUID()), data)
 }
 
-export default function CreateReportModal({ navigation, route }) {
-  const { lat, lng } = route.params
+export default function CreateReportModalScreen() {
+  const { lat, lng } = useLocalSearchParams()
 
   const [image, setImage] = useState(null)
   const [submitting, setSubmitting] = useState(false)
@@ -108,7 +109,7 @@ export default function CreateReportModal({ navigation, route }) {
 
       addReport(parsedData)
       setSubmitting(false)
-      navigation.navigate('Main', { screen: 'Reports' })
+      router.replace('reports')
     })
   }
 

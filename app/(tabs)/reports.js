@@ -1,4 +1,5 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome'
+import { router } from 'expo-router'
 import {
   getDatabase,
   onValue,
@@ -11,10 +12,10 @@ import { Image, Modal, Pressable, StyleSheet, Text, View } from 'react-native'
 import { useMediaQuery } from 'react-responsive'
 import Balancer from 'react-wrap-balancer'
 
-import { DATABASE_PATH } from '../constants'
-import { colors, components } from '../theme'
+import { DATABASE_PATH } from '../../constants'
+import { colors, components } from '../../theme'
 
-export default function Reports({ navigation }) {
+export default function ReportsScreen() {
   const [reports, setReports] = useState({})
   const [modalImage, setModalImage] = useState('')
   const isMobile = useMediaQuery({
@@ -146,10 +147,13 @@ export default function Reports({ navigation }) {
                   backgroundColor={colors.palette.neutral400}
                   size={16}
                   onPress={() =>
-                    navigation.navigate('Map', {
-                      id,
-                      lat: report.lat - 0.0003,
-                      lng: report.lng,
+                    router.replace({
+                      pathname: 'map',
+                      params: {
+                        id,
+                        lat: report.lat - 0.0003,
+                        lng: report.lng,
+                      },
                     })
                   }
                 >

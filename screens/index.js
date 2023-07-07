@@ -1,5 +1,0 @@
-export { default as Home } from './home'
-export { default as MainTabs } from './main-tabs'
-export { default as Map } from './map'
-export { default as CreateReportModal } from './modals/create-report-modal'
-export { default as Reports } from './reports'

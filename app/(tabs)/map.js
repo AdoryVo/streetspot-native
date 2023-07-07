@@ -1,27 +1,32 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { GoogleMap, InfoWindowF, MarkerF } from '@react-google-maps/api'
 import * as Location from 'expo-location'
+import { router, useLocalSearchParams } from 'expo-router'
 import { getDatabase, onValue, ref } from 'firebase/database'
 import { useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import Balancer from 'react-wrap-balancer'
 
-import { DATABASE_PATH } from '../constants'
-import { colors, components } from '../theme'
+import { useMaps } from '../../components/maps-context'
+import { DATABASE_PATH } from '../../constants'
+import { colors, components } from '../../theme'
 
 const CREATE_MARKER_ID = 'createReport'
 
-export default function Map({ navigation, route, isLoaded }) {
+export default function MapScreen() {
+  const params = useLocalSearchParams()
+
   const [coords, setCoords] = useState({
-    lat: route.params.lat,
-    lng: route.params.lng,
+    lat: parseFloat(params.lat),
+    lng: parseFloat(params.lng),
   })
   const [createMarker, setCreateMarker] = useState(null)
   const [activeMarker, setActiveMarker] = useState(
-    route.params.id ?? CREATE_MARKER_ID
+    params.id ?? CREATE_MARKER_ID
   )
   const [reports, setReports] = useState({})
+  const { isLoaded } = useMaps()
 
   const LocationButtonDiv = () => (
     <View style={styles.locationButtonDiv}>
@@ -59,10 +64,10 @@ export default function Map({ navigation, route, isLoaded }) {
 
   useEffect(() => {
     setCoords({
-      lat: route.params.lat,
-      lng: route.params.lng,
+      lat: parseFloat(params.lat),
+      lng: parseFloat(params.lng),
     })
-  }, [route])
+  }, [params])
 
   useEffect(() => {
     const db = getDatabase()
@@ -119,10 +124,10 @@ export default function Map({ navigation, route, isLoaded }) {
                         margin: '0.25em',
                       }}
                       onPress={() =>
-                        navigation.navigate(
-                          'Create Report Modal',
-                          createMarker.getPosition().toJSON()
-                        )
+                        router.push({
+                          pathname: 'create-report-modal',
+                          params: createMarker.getPosition().toJSON(),
+                        })
                       }
                     >
                       Make a report
@@ -202,7 +207,7 @@ export default function Map({ navigation, route, isLoaded }) {
                         name="map-pin"
                         backgroundColor={colors.palette.neutral300}
                         color="white"
-                        onPress={() => navigation.navigate('Reports')}
+                        onPress={() => router.replace('reports')}
                       >
                         View on reports page
                       </FontAwesome.Button>
