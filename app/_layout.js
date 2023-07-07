@@ -6,7 +6,7 @@ import { useEffect } from 'react'
 import { Provider } from 'react-wrap-balancer'
 
 import { MapsProvider } from '../components/maps-context'
-import { colors } from '../theme'
+import { colors } from '../constants/theme'
 
 export { ErrorBoundary } from 'expo-router'
 

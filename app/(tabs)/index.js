@@ -7,7 +7,7 @@ import { Image, StyleSheet, Text, TextInput, View } from 'react-native'
 import Balancer from 'react-wrap-balancer'
 
 import { useMaps } from '../../components/maps-context'
-import { colors, components } from '../../theme'
+import { colors, components } from '../../constants/theme'
 
 export default function HomeScreen() {
   const [autocomplete, setAutocomplete] = useState(null)
@@ -49,7 +49,7 @@ export default function HomeScreen() {
             marginHorizontal: 'auto',
             marginBottom: '0.5em',
           }}
-          source={require('../../assets/adaptive-icon.png')}
+          source={require('../../assets/images/adaptive-icon.png')}
         />
         <Text style={{ ...styles.title, textAlign: 'center' }}>
           <h1 style={{ margin: 0, textTransform: 'uppercase' }}>Streetspot</h1>

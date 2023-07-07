@@ -10,7 +10,7 @@ import Balancer from 'react-wrap-balancer'
 
 import { useMaps } from '../../components/maps-context'
 import { DATABASE_PATH } from '../../constants'
-import { colors, components } from '../../theme'
+import { colors, components } from '../../constants/theme'
 
 const CREATE_MARKER_ID = 'createReport'
 

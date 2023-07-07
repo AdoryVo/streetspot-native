@@ -11,7 +11,7 @@ export function useMaps() {
 export function MapsProvider(props) {
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey:
-      process.env.EXPO_PUBLIC_GOOGLE_API_KEY ??
+      process.env.EXPO_PUBLIC_GOOGLE_API_KEY ||
       'AIzaSyDKONPXXmii6ukk84Uioc-B5h1dEzO39YM',
     libraries,
   })

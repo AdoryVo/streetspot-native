@@ -3,7 +3,7 @@ import { Link, Stack } from 'expo-router'
 import { StyleSheet, Text, View } from 'react-native'
 import { Balancer } from 'react-wrap-balancer'
 
-import { colors } from '../theme'
+import { colors } from '../constants/theme'
 
 export default function NotFoundScreen() {
   return (

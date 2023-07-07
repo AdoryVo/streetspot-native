@@ -18,7 +18,7 @@ import Select from 'react-select'
 import Balancer from 'react-wrap-balancer'
 
 import { DATABASE_PATH } from '../constants'
-import { colors, components } from '../theme'
+import { colors, components } from '../constants/theme'
 
 const CATEGORY_OPTIONS = [
   { value: 'road', label: 'Road' },

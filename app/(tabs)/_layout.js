@@ -1,7 +1,7 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { Tabs } from 'expo-router'
 
-import { colors } from '../../theme'
+import { colors } from '../../constants/theme'
 
 const DEV_INITIAL_SCREEN = 'index'
 
