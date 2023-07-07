@@ -1,11 +1,13 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { useFonts } from 'expo-font'
-import { SplashScreen, Stack } from 'expo-router'
+import { SplashScreen, Stack, usePathname } from 'expo-router'
+import Head from 'expo-router/head'
 import { getApps, initializeApp } from 'firebase/app'
 import { useEffect } from 'react'
 import { Provider } from 'react-wrap-balancer'
 
 import { MapsProvider } from '../components/maps-context'
+import { PATHNAME_TITLE_MAP } from '../constants'
 import { colors } from '../constants/theme'
 
 export { ErrorBoundary } from 'expo-router'
@@ -43,6 +45,8 @@ export default function RootLayout() {
     ...FontAwesome.font,
   })
 
+  const pathname = usePathname()
+
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
     if (error) throw error
@@ -58,12 +62,11 @@ export default function RootLayout() {
     return null
   }
 
-  return <RootLayoutNav />
-}
-
-function RootLayoutNav() {
   return (
     <>
+      <Head>
+        <title>{PATHNAME_TITLE_MAP[pathname]} - Streetspot</title>
+      </Head>
       <MapsProvider>
         <Provider>
           <Stack
