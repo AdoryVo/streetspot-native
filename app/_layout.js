@@ -7,7 +7,7 @@ import { useEffect } from 'react'
 import { Provider } from 'react-wrap-balancer'
 
 import { MapsProvider } from '../components/maps-context'
-import { PATHNAME_TITLE_MAP } from '../constants'
+import { PATHNAME_DESC_MAP, PATHNAME_TITLE_MAP } from '../constants'
 import { colors } from '../constants/theme'
 
 export { ErrorBoundary } from 'expo-router'
@@ -65,7 +65,27 @@ export default function RootLayout() {
   return (
     <>
       <Head>
-        <title>{PATHNAME_TITLE_MAP[pathname]} - Streetspot</title>
+        <title>
+          {PATHNAME_TITLE_MAP[pathname] ?? PATHNAME_TITLE_MAP['/404']}
+        </title>
+        <meta
+          name="description"
+          content={PATHNAME_DESC_MAP[pathname] ?? PATHNAME_DESC_MAP['/default']}
+        />
+        <meta property="og:url" content="https://streetspot.netlify.app" />
+        <meta
+          property="og:title"
+          content={PATHNAME_TITLE_MAP[pathname] ?? PATHNAME_TITLE_MAP['/404']}
+        />
+        <meta
+          property="og:description"
+          content={PATHNAME_DESC_MAP[pathname] ?? PATHNAME_DESC_MAP['/default']}
+        />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:image"
+          content="https://streetspot.netlify.app/screenshot-home.png"
+        />
       </Head>
       <MapsProvider>
         <Provider>

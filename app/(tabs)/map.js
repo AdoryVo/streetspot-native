@@ -1,15 +1,16 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { GoogleMap, InfoWindowF, MarkerF } from '@react-google-maps/api'
+import { Image } from 'expo-image'
 import * as Location from 'expo-location'
 import { router, useLocalSearchParams } from 'expo-router'
 import { getDatabase, onValue, ref } from 'firebase/database'
 import { useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import Balancer from 'react-wrap-balancer'
 
 import { useMaps } from '../../components/maps-context'
-import { DATABASE_PATH } from '../../constants'
+import { DATABASE_PATH, GRAY_BLURHASH } from '../../constants'
 import { colors, components } from '../../constants/theme'
 
 const CREATE_MARKER_ID = 'createReport'
@@ -158,7 +159,9 @@ export default function MapScreen() {
                 >
                   <View style={{ marginTop: '0.5em' }}>
                     <Image
-                      source={{ uri: report.image }}
+                      source={report.image}
+                      placeholder={GRAY_BLURHASH}
+                      contentFit="scale-down"
                       style={{
                         width: '100%',
                         height: '300px',

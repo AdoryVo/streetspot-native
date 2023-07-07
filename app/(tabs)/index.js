@@ -1,9 +1,10 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { Autocomplete } from '@react-google-maps/api'
+import { Image } from 'expo-image'
 import * as Location from 'expo-location'
 import { router } from 'expo-router'
 import { useRef, useState } from 'react'
-import { Image, StyleSheet, Text, TextInput, View } from 'react-native'
+import { StyleSheet, Text, TextInput, View } from 'react-native'
 import Balancer from 'react-wrap-balancer'
 
 import { useMaps } from '../../components/maps-context'
@@ -46,7 +47,8 @@ export default function HomeScreen() {
           style={{
             width: '5em',
             height: '5em',
-            marginHorizontal: 'auto',
+            marginLeft: 'auto',
+            marginRight: 'auto',
             marginBottom: '0.5em',
           }}
           source={require('../../assets/images/adaptive-icon.png')}

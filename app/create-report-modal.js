@@ -1,5 +1,6 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { randomUUID } from 'expo-crypto'
+import { Image } from 'expo-image'
 import * as ImagePicker from 'expo-image-picker'
 import { router, useLocalSearchParams } from 'expo-router'
 import { ref as dbRef, getDatabase, set } from 'firebase/database'
@@ -8,7 +9,6 @@ import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import {
   ActivityIndicator,
-  Image,
   StyleSheet,
   Text,
   TextInput,
@@ -199,7 +199,7 @@ export default function CreateReportModalScreen() {
           </FontAwesome.Button>
           {image && (
             <Image
-              source={{ uri: image }}
+              source={image}
               style={{
                 width: 'auto',
                 height: 300,

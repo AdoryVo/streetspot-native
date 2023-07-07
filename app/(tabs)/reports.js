@@ -1,4 +1,5 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome'
+import { Image } from 'expo-image'
 import { router } from 'expo-router'
 import {
   getDatabase,
@@ -8,11 +9,11 @@ import {
   ref,
 } from 'firebase/database'
 import { useEffect, useState } from 'react'
-import { Image, Modal, Pressable, StyleSheet, Text, View } from 'react-native'
+import { Modal, Pressable, StyleSheet, Text, View } from 'react-native'
 import { useMediaQuery } from 'react-responsive'
 import Balancer from 'react-wrap-balancer'
 
-import { DATABASE_PATH } from '../../constants'
+import { DATABASE_PATH, GRAY_BLURHASH } from '../../constants'
 import { colors, components } from '../../constants/theme'
 
 export default function ReportsScreen() {
@@ -78,7 +79,9 @@ export default function ReportsScreen() {
               style={{ cursor: 'zoom-in', height: '100%' }}
             >
               <Image
-                source={{ uri: report.image }}
+                source={report.image}
+                placeholder={GRAY_BLURHASH}
+                transition={1000}
                 style={{
                   height: '100%',
                   minHeight: isMobile ? '25vh' : '0',
