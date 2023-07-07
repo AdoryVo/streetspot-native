@@ -9,7 +9,7 @@ import {
 import { useEffect, useState } from 'react'
 import { Image, Modal, Pressable, StyleSheet, Text, View } from 'react-native'
 import { useMediaQuery } from 'react-responsive'
-import { Balancer } from 'react-wrap-balancer'
+import Balancer from 'react-wrap-balancer'
 
 import { DATABASE_PATH } from '../constants'
 import { colors, components } from '../theme'

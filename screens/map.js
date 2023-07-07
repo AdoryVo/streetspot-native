@@ -5,7 +5,7 @@ import { getDatabase, onValue, ref } from 'firebase/database'
 import { useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { Image, StyleSheet, Text, View } from 'react-native'
-import { Balancer } from 'react-wrap-balancer'
+import Balancer from 'react-wrap-balancer'
 
 import { DATABASE_PATH } from '../constants'
 import { colors, components } from '../theme'

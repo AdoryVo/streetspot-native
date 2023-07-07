@@ -6,10 +6,12 @@ npm-debug.*
 *.p8
 *.p12
 *.key
-*.env
 *.mobileprovision
 *.orig.*
 web-build/
+
+# local env files
+.env*.local
 
 # macOS
 .DS_Store

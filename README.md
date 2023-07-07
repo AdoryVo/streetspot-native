@@ -11,9 +11,9 @@ Built with React Native and Expo for mobile compatibility.
 1. Clone the repo (`git clone https://github.com/AdoryVo/streetspot-native.git`)
 2. Open your local repo folder in VS Code
 3. Open a new terminal (`` Ctrl+` ``) & run `npm install` to install dependencies
-4. Add a `.env` file to the root directory & set `GOOGLE_MAPS_API_KEY=[your local unrestricted Google Cloud api key here]`.
+4. Add your Google Cloud API key to `.env.example` and rename it to `.env.local`.
 5. Open a new terminal (`` Ctrl+Shift+` ``) and run `npm run web` to start and test the app for the web.
-6. Open [http://localhost:19006](http://localhost:19006) with your browser to see the result.
+6. Open [http://localhost:8081](http://localhost:8081) with your browser to see the result.
 
 ## 🥞 Stack
 
@@ -32,7 +32,6 @@ Built with React Native and Expo for mobile compatibility.
 
 ### Misc
 - [prettier](https://prettier.io/) - Code formatting
-- [react-native-dotenv](https://www.npmjs.com/package/react-native-dotenv) - .env loading for local development
 
 ## ⭐ See also
 - [Chain React 2023 App](https://github.com/infinitered/ChainReactApp2023) - Solid reference for a React Native & Expo app

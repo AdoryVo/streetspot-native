@@ -32,7 +32,7 @@ export default function Home({ navigation, isLoaded }) {
 
   return (
     <View style={components.container}>
-      <View style={{ marginBottom: '1em', textAlign: 'center' }}>
+      <View style={{ marginBottom: '1em' }}>
         <Image
           style={{
             width: '5em',
@@ -42,7 +42,7 @@ export default function Home({ navigation, isLoaded }) {
           }}
           source={require('../assets/adaptive-icon.png')}
         />
-        <Text style={styles.title}>
+        <Text style={{ ...styles.title, textAlign: 'center' }}>
           <h1 style={{ margin: 0, textTransform: 'uppercase' }}>Streetspot</h1>
         </Text>
 

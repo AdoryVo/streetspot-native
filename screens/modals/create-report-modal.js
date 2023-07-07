@@ -14,7 +14,7 @@ import {
   View,
 } from 'react-native'
 import Select from 'react-select'
-import { Balancer } from 'react-wrap-balancer'
+import Balancer from 'react-wrap-balancer'
 
 import { DATABASE_PATH } from '../../constants'
 import { colors, components } from '../../theme'

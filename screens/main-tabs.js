@@ -1,4 +1,3 @@
-import { GOOGLE_API_KEY } from '@env'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { useJsApiLoader } from '@react-google-maps/api'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
@@ -20,7 +19,8 @@ const DEV_INITIAL_SCREEN = 'Home'
 export default function MainTabs() {
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey:
-      GOOGLE_API_KEY ?? 'AIzaSyDKONPXXmii6ukk84Uioc-B5h1dEzO39YM',
+      process.env.EXPO_PUBLIC_GOOGLE_API_KEY ??
+      'AIzaSyDKONPXXmii6ukk84Uioc-B5h1dEzO39YM',
     libraries,
   })
 
