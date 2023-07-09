@@ -5,6 +5,10 @@ import { Balancer } from 'react-wrap-balancer'
 
 import { colors } from '../constants/theme'
 
+export async function generateStaticParams() {
+  return [{ unmatched: ['404'] }]
+}
+
 export default function NotFoundScreen() {
   return (
     <>
