@@ -82,10 +82,10 @@ export default function ReportsScreen() {
                 source={report.image}
                 placeholder={GRAY_BLURHASH}
                 transition={1000}
+                contentFit="cover"
                 style={{
                   height: '100%',
                   minHeight: isMobile ? '25vh' : '0',
-                  resizeMode: 'cover',
                   border: '2px solid #cccccc',
                   backgroundColor: '#eeeeee',
                   borderRadius: '5px',
@@ -181,10 +181,10 @@ export default function ReportsScreen() {
           <View style={isMobile ? styles.modalViewMobile : styles.modalView}>
             <Image
               source={{ uri: modalImage }}
+              contentFit="contain"
               style={{
                 width: '100%',
                 height: 'inherit',
-                resizeMode: 'contain',
                 borderRadius: '5px',
               }}
             />

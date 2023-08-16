@@ -200,11 +200,11 @@ export default function CreateReportModalScreen() {
           {image && (
             <Image
               source={image}
+              contentFit="contain"
               style={{
                 width: 'auto',
                 height: 300,
                 marginTop: '0.5em',
-                resizeMode: 'contain',
                 border: '2px solid #cccccc',
                 backgroundColor: '#eeeeee',
                 borderRadius: '5px',

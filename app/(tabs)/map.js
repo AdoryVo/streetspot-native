@@ -165,7 +165,6 @@ export default function MapScreen() {
                       style={{
                         width: '100%',
                         height: '300px',
-                        resizeMode: 'contain',
                         border: '2px solid #cccccc',
                         backgroundColor: '#eeeeee',
                         borderRadius: '5px',
