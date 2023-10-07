@@ -12,6 +12,7 @@
   "dependencies": {
     "@expo/match-media": "^0.4.0",
     "@react-google-maps/api": "^2.18.1",
+    "@vercel/analytics": "^1.1.0",
     "expo": "^49.0.0",
     "expo-constants": "~14.4.2",
     "expo-crypto": "~12.4.1",

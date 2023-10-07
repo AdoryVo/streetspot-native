@@ -1,4 +1,5 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome'
+import { Analytics } from '@vercel/analytics/react'
 import { useFonts } from 'expo-font'
 import { SplashScreen, Stack, usePathname } from 'expo-router'
 import Head from 'expo-router/head'
@@ -112,6 +113,7 @@ export default function RootLayout() {
           </Stack>
         </Provider>
       </MapsProvider>
+      <Analytics />
     </>
   )
 }
