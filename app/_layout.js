@@ -1,5 +1,5 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome'
-import { Analytics } from '@vercel/analytics/react'
+import { inject } from '@vercel/analytics'
 import { useFonts } from 'expo-font'
 import { SplashScreen, Stack, usePathname } from 'expo-router'
 import Head from 'expo-router/head'
@@ -35,9 +35,13 @@ const firebaseConfig = {
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync()
 
+// Initialize Firebase config if not initialized
 if (!getApps().length) {
   initializeApp(firebaseConfig)
 }
+
+// Inject Vercel Analytics
+inject()
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
@@ -113,7 +117,6 @@ export default function RootLayout() {
           </Stack>
         </Provider>
       </MapsProvider>
-      <Analytics />
     </>
   )
 }
