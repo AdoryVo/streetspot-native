@@ -10,6 +10,7 @@ import { Provider } from 'react-wrap-balancer'
 import { MapsProvider } from '../components/maps-context'
 import { PATHNAME_DESC_MAP, PATHNAME_TITLE_MAP } from '../constants'
 import { colors } from '../constants/theme'
+import { webVitals } from '../lib/vitals'
 
 export { ErrorBoundary } from 'expo-router'
 
@@ -40,8 +41,14 @@ if (!getApps().length) {
   initializeApp(firebaseConfig)
 }
 
-// Inject Vercel Analytics
+// Inject Vercel Analytics & Web Vitals
 inject()
+webVitals({
+  analyticsId:
+    process.env.VERCEL_ANALYTICS_ID ||
+    process.env.EXPO_PUBLIC_VERCEL_ANALYTICS_ID,
+  debug: true,
+})
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
