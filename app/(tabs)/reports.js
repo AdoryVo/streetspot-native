@@ -1,4 +1,5 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Image } from 'expo-image'
 import { router } from 'expo-router'
 import {
@@ -7,6 +8,7 @@ import {
   orderByChild,
   query,
   ref,
+  update,
 } from 'firebase/database'
 import { useEffect, useState } from 'react'
 import { Modal, Pressable, StyleSheet, Text, View } from 'react-native'
@@ -15,6 +17,56 @@ import Balancer from 'react-wrap-balancer'
 
 import { DATABASE_PATH, GRAY_BLURHASH } from '../../constants'
 import { colors, components } from '../../constants/theme'
+
+function updateReport(id, report, option) {
+  const db = getDatabase()
+
+  const update_values = {
+    like: { likes: report.likes + 1 },
+    unlike: { likes: report.likes - 1 },
+    dislike: { dislikes: report.dislikes + 1 },
+    undislike: { dislikes: report.dislikes - 1 },
+  }[option]
+
+  update(ref(db, `${DATABASE_PATH}/${id}`), update_values)
+}
+
+async function handleRatingPress(id, report, type) {
+  const storageItem = await AsyncStorage.getItem(type)
+  const ids = new Set(JSON.parse(storageItem))
+  console.log(id)
+  if (ids.has(id)) {
+    // Rated already, un-rate
+    ids.delete(id)
+
+    switch (type) {
+      case 'likes':
+        updateReport(id, report, 'unlike')
+        break
+      case 'dislikes':
+        updateReport(id, report, 'undislike')
+        break
+      default:
+        break
+    }
+  } else {
+    // Not rated, rate
+    ids.add(id)
+
+    switch (type) {
+      case 'likes':
+        updateReport(id, report, 'like')
+        break
+      case 'dislikes':
+        updateReport(id, report, 'dislike')
+        break
+      default:
+        break
+    }
+  }
+
+  AsyncStorage.setItem(type, JSON.stringify(Array.from(ids)))
+}
 
 export default function ReportsScreen() {
   const [reports, setReports] = useState({})
@@ -127,6 +179,7 @@ export default function ReportsScreen() {
                     color: 'white',
                     fontFamily: 'SF Pro',
                   }}
+                  onPress={async () => handleRatingPress(id, report, 'likes')}
                 >
                   {report.likes}
                 </FontAwesome.Button>
@@ -140,6 +193,9 @@ export default function ReportsScreen() {
                     color: 'white',
                     fontFamily: 'SF Pro',
                   }}
+                  onPress={async () =>
+                    handleRatingPress(id, report, 'dislikes')
+                  }
                 >
                   {report.dislikes}
                 </FontAwesome.Button>
