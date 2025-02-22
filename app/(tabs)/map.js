@@ -4,7 +4,7 @@ import { Image } from 'expo-image'
 import * as Location from 'expo-location'
 import { router, useLocalSearchParams } from 'expo-router'
 import { getDatabase, onValue, ref } from 'firebase/database'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { StyleSheet, Text, View } from 'react-native'
 import Balancer from 'react-wrap-balancer'
@@ -18,10 +18,10 @@ const CREATE_MARKER_ID = 'createReport'
 export default function MapScreen() {
   const params = useLocalSearchParams()
 
-  const [coords, setCoords] = useState({
-    lat: parseFloat(params.lat),
-    lng: parseFloat(params.lng),
-  })
+  const [lat, setLat] = useState(parseFloat(params.lat))
+  const [lng, setLng] = useState(parseFloat(params.lng))
+  const coords = useMemo(() => ({ lat, lng }), [lat, lng])
+
   const [createMarker, setCreateMarker] = useState(null)
   const [activeMarker, setActiveMarker] = useState(
     params.id ?? CREATE_MARKER_ID
@@ -43,10 +43,8 @@ export default function MapScreen() {
 
   async function handleUseCurrentLocation() {
     const location = await Location.getCurrentPositionAsync({})
-    setCoords({
-      lat: location.coords.latitude,
-      lng: location.coords.longitude,
-    })
+    setLat(parseFloat(location.coords.latitude))
+    setLng(parseFloat(location.coords.longitude))
     setActiveMarker(CREATE_MARKER_ID)
   }
 
@@ -64,10 +62,8 @@ export default function MapScreen() {
   }
 
   useEffect(() => {
-    setCoords({
-      lat: parseFloat(params.lat),
-      lng: parseFloat(params.lng),
-    })
+    setLat(parseFloat(params.lat))
+    setLng(parseFloat(params.lng))
   }, [params])
 
   useEffect(() => {
