@@ -18,9 +18,10 @@ const CREATE_MARKER_ID = 'createReport'
 export default function MapScreen() {
   const params = useLocalSearchParams()
 
-  const [lat, setLat] = useState(parseFloat(params.lat))
-  const [lng, setLng] = useState(parseFloat(params.lng))
-  const coords = useMemo(() => ({ lat, lng }), [lat, lng])
+  const coords = useMemo(
+    () => ({ lat: parseFloat(params.lat), lng: parseFloat(params.lng) }),
+    [params]
+  )
 
   const [createMarker, setCreateMarker] = useState(null)
   const [activeMarker, setActiveMarker] = useState(
@@ -43,8 +44,11 @@ export default function MapScreen() {
 
   async function handleUseCurrentLocation() {
     const location = await Location.getCurrentPositionAsync({})
-    setLat(parseFloat(location.coords.latitude))
-    setLng(parseFloat(location.coords.longitude))
+    router.setParams({
+      lat: location.coords.latitude,
+      lng: location.coords.longitude,
+    })
+
     setActiveMarker(CREATE_MARKER_ID)
   }
 
@@ -60,11 +64,6 @@ export default function MapScreen() {
   function onLoadMarker(marker) {
     setCreateMarker(marker)
   }
-
-  useEffect(() => {
-    setLat(parseFloat(params.lat))
-    setLng(parseFloat(params.lng))
-  }, [params])
 
   useEffect(() => {
     const db = getDatabase()
